@@ -1,4 +1,4 @@
-import { HomeTwoTone, EditTwoTone, CheckCircleTwoTone } from '@ant-design/icons';
+import { HomeTwoTone, EditTwoTone, CheckCircleTwoTone, InfoCircleTwoTone, AppstoreTwoTone, PhoneTwoTone } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
@@ -15,6 +15,21 @@ const Header = () => {
       key: 'h',
       icon: <HomeTwoTone />,
       label: <Link to="/">Home</Link>,
+    },
+    {
+      key: 'about',
+      icon: <InfoCircleTwoTone />,
+      label: <a href="#about">About</a>,
+    },
+    {
+      key: 'services',
+      icon: <AppstoreTwoTone />,
+      label: <a href="#services">Services</a>,
+    },
+    {
+      key: 'contact',
+      icon: <PhoneTwoTone />,
+      label: <a href="#contact">Contact</a>,
     },
     {
       key: 'r',
@@ -36,6 +51,11 @@ const Header = () => {
         selectedKeys={[current]}
         mode="horizontal"
         items={items}
+        style={{
+          backgroundColor: '#7FFF00',
+          fontWeight: 'bold',
+          fontFamily: 'sans-serif',
+        }}
       />
       <Outlet />
     </>
