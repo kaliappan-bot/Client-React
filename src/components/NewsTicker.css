@@ -1,0 +1,43 @@
+.news-ticker {
+  background-color: navy;
+  color: white;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 10px 0;
+  font-weight: bold;
+  position: relative;
+}
+
+.ticker-title {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: navy;
+  padding-right: 10px;
+  z-index: 2;
+}
+
+.ticker-wrapper {
+  margin-left: 150px;
+  overflow: hidden;
+}
+
+.ticker {
+  display: inline-block;
+  animation: scrollTicker 20s linear infinite;
+}
+
+.ticker-item {
+  display: inline-block;
+  margin-right: 50px;
+}
+
+@keyframes scrollTicker {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

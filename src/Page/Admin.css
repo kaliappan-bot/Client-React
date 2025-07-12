@@ -1,0 +1,34 @@
+.admin-login-container {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px lightgray;
+  text-align: center;
+}
+
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.admin-login-form label {
+  text-align: left;
+}
+
+.admin-login-form input {
+  padding: 10px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.admin-login-form button {
+  padding: 10px;
+  background-color: darkblue;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
