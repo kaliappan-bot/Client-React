@@ -7,7 +7,7 @@ const LoginForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert(`Logging in as ${activeTab}`);
-    // Add actual login logic here
+    
   };
 
   return (

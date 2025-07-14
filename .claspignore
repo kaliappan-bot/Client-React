@@ -1,0 +1,6 @@
+# Ignore all folders and files by default
+**
+
+# But allow only these specific script files
+!Code.gs
+!appsscript.json

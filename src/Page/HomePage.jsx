@@ -9,6 +9,8 @@ import QuickStats from '../components/QuickStats';
 import NewsTicker from '../components/NewsTicker'; 
 import ContactSection from '../components/ContactSection';
 import Footer from '../components/Footer';
+import ContactForm from "../ContactForm";
+
 import './HomePage.css';
 
 export default function HomePage() {
@@ -32,6 +34,7 @@ export default function HomePage() {
       <QuickStats />
       <ContactSection />
       <Footer />
+      <ContactForm />
     </div>
   );
 }
