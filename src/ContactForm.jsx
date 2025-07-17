@@ -10,7 +10,7 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("https://script.google.com/macros/s/AKfycbyi2tNl5BDvDp6SDCk1kSB_SARIfjqsFLaspF0uICTS2wHx_aWWo0RXTFdEfu7h0H1T/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbxYTgEt0HeuAwIgL86sfH6jbPauYRoNuwjhBq6hdONAhy7zvo6-ealV6nCN7degcv7b/exec", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

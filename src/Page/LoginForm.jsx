@@ -3,11 +3,32 @@ import './LoginForm.css';
 
 const LoginForm = () => {
   const [activeTab, setActiveTab] = useState('employee');
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const scriptURL =
+    'https://script.google.com/macros/s/AKfycbxkAEnxnaEguebEEZ6BIlgAm67eAQWvTn62CLkiLzGYVyALDwufunuqXir41v0W--4B/exec';
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Logging in as ${activeTab}`);
-    
+
+    const form = e.target;
+    const formData = new FormData(form);
+    formData.append('role', activeTab); // Optional: indicate role
+    formData.append('timestamp', new Date().toLocaleString());
+
+    try {
+      const response = await fetch(scriptURL, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.text();
+      setMessage(result);
+      form.reset();
+    } catch (error) {
+      console.error('Error!', error.message);
+      setMessage('❌ Submission failed.');
+    }
   };
 
   return (
@@ -19,12 +40,14 @@ const LoginForm = () => {
         <button
           className={activeTab === 'employee' ? 'active' : ''}
           onClick={() => setActiveTab('employee')}
+          type="button"
         >
           Employee Login
         </button>
         <button
           className={activeTab === 'admin' ? 'active' : ''}
           onClick={() => setActiveTab('admin')}
+          type="button"
         >
           Admin Login
         </button>
@@ -42,6 +65,8 @@ const LoginForm = () => {
         </label>
         <button type="submit">Login</button>
       </form>
+
+      {message && <p className="response-message">{message}</p>}
 
       <p className="forgot-password">
         <a href="/reset-password">Forgot Password?</a>
