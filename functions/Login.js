@@ -1,11 +1,11 @@
 export async function onRequestPost({ request }) {
   try {
     // Receive request from React app
-    const body = await request.json();
+    const body = await request.json(); // must contain action, empId, password
 
-    // Forward request to Google Apps Script
+    // Forward to Apps Script
     const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbwzN9d_YBYxzaaQt_LMKlsq8AkuDoLTXqD0d6FUKgEaApokB7Er_VcE3YzvovDu1ozg/exec",
+      "https://script.google.com/macros/s/AKfycbyNfHYNGfCeCSw-wYsYgmv7oJkUx7xxaQBgkpunn7qZVdT4lXiJ4Rm8LMNIOhMjRqT4/exec", // replace with your script
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -13,7 +13,6 @@ export async function onRequestPost({ request }) {
       }
     );
 
-    // Parse Apps Script response safely
     const text = await response.text();
     const data = text ? JSON.parse(text) : { status: "error", message: "Empty response from server" };
 

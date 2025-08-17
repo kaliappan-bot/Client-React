@@ -14,14 +14,12 @@ function LoginForm() {
     setError("");
 
     try {
-      // ✅ Fetch via Cloudflare proxy
       const response = await fetch("/functions/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "login", empId, password }),
       });
 
-      // ✅ Safely parse JSON
       const text = await response.text();
       const data = text
         ? JSON.parse(text)
