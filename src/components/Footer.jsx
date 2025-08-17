@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-container">
 
-        {/* Connect Section */}
+       
         <div className="footer-connect">
           <h3>Connect with Us</h3>
           <p>Follow us on:</p>
@@ -17,14 +17,14 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Quick Links */}
+        
         <div className="footer-links">
           <a href="/terms">Terms & Conditions</a>
           <a href="/privacy">Privacy Policy</a>
           <a href="/faq">FAQs</a>
         </div>
 
-        {/* Copyright */}
+        
         <div className="footer-copy">
           &copy; {new Date().getFullYear()} iBots Satellite Office. All rights reserved.
         </div>

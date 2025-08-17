@@ -60,3 +60,25 @@
   color: dodgerblue;
   text-decoration: none;
 }
+.home-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: blueviolet;
+  color: white;
+  border: none;
+  border-radius: 50%; /* round */
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.home-btn:hover {
+  background-color: aqua;
+  color: black;
+  transform: scale(1.1);
+}

@@ -9,7 +9,7 @@ const Header = () => {
   const handleHomeClick = (e) => {
     e.preventDefault();
     navigate('/');
-    window.scrollTo(0, 0); // Scroll to top
+    window.scrollTo(0, 0); 
   };
 
   return (

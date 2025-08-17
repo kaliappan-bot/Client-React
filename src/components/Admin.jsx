@@ -5,7 +5,7 @@ export default function Admin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert('Admin login submitted!');
-    // Add authentication logic here
+   
   };
 
   return (

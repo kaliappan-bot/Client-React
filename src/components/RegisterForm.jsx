@@ -1,67 +1,130 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaHome } from "react-icons/fa"; 
 import "./RegisterForm.css";
 
 const RegisterForm = () => {
-  const formRef = useRef(null);
-  const [responseMsg, setResponseMsg] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    empId: "",
+    email: "",
+    department: "",
+    mobile: "",
+    password: "",
+  });
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
-  const scriptURL = "https://script.google.com/macros/s/AKfycbxkAEnxnaEguebEEZ6BIlgAm67eAQWvTn62CLkiLzGYVyALDwufunuqXir41v0W--4B/exec";
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(formRef.current);
-    formData.append("timestamp", new Date().toLocaleString());
-
     try {
-      const response = await fetch(scriptURL, {
+      const res = await fetch(import.meta.env.VITE_API_URL, {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "register",
+          ...formData,
+        }),
       });
 
-      const result = await response.text();
-      setResponseMsg(result);
-      formRef.current.reset();
-    } catch (error) {
-      console.error("Error!", error.message);
-      setResponseMsg("❌ Submission failed.");
+      const data = await res.json();
+      setMessage(data.message);
+
+      if (data.status === "success") {
+        console.log("Registered:", formData.name);
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      setMessage("Something went wrong!");
     }
   };
 
   return (
-    <section className="register-section" id="register">
+    <div className="register-section">
+     <button className="home-btn" onClick={() => navigate("/")}>
+        <FaHome size={20} />
+      </button>
+
       <h1>Employee Registration</h1>
-      <form ref={formRef} onSubmit={handleSubmit} className="register-form">
+      <form className="register-form" onSubmit={handleRegister}>
         <label>
           Name
-          <input type="text" name="name" required />
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
         </label>
         <label>
           Employee ID
-          <input type="text" name="empId" required />
+          <input
+            type="text"
+            name="empId"
+            placeholder="Emp ID"
+            value={formData.empId}
+            onChange={handleChange}
+            required
+          />
         </label>
         <label>
           Email
-          <input type="email" name="email" required />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
         </label>
         <label>
           Department
-          <input type="text" name="department" required />
+          <input
+            type="text"
+            name="department"
+            placeholder="Department"
+            value={formData.department}
+            onChange={handleChange}
+            required
+          />
         </label>
         <label>
-          Mobile Number
-          <input type="tel" name="mobile" required />
+          Mobile
+          <input
+            type="text"
+            name="mobile"
+            placeholder="Mobile"
+            value={formData.mobile}
+            onChange={handleChange}
+            required
+          />
         </label>
         <label>
           Password
-          <input type="password" name="password" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
         </label>
-        <button type="submit">Submit</button>
+        <button type="submit">Register</button>
       </form>
-      <p id="response-msg" style={{ marginTop: "10px", color: "green" }}>
-        {responseMsg}
-      </p>
-    </section>
+
+      {message && (
+        <p style={{ textAlign: "center", marginTop: "10px" }}>{message}</p>
+      )}
+    </div>
   );
 };
 
