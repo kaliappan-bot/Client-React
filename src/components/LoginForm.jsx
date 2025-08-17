@@ -21,9 +21,7 @@ function LoginForm() {
       });
 
       const text = await response.text();
-      const data = text
-        ? JSON.parse(text)
-        : { status: "error", message: "Empty response from server" };
+      const data = text ? JSON.parse(text) : { status: "error", message: "Empty response from server" };
 
       if (data.status === "success") {
         navigate("/welcome", { state: { name: data.name } });
