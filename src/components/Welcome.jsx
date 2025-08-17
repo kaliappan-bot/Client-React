@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FaHome, FaSignOutAlt } from "react-icons/fa";
 import "./Welcome.css";
 
-function Welcome() {
+export default function Welcome() {
   const navigate = useNavigate();
   const location = useLocation();
   const userName = location.state?.name || "User";
@@ -26,5 +26,3 @@ function Welcome() {
     </div>
   );
 }
-
-export default Welcome;

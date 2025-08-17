@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaHome } from "react-icons/fa"; 
+import { FaHome } from "react-icons/fa";
 import "./RegisterForm.css";
 
-const RegisterForm = () => {
+export default function RegisterForm() {
   const [formData, setFormData] = useState({
     name: "",
     empId: "",
@@ -15,27 +15,24 @@ const RegisterForm = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
-      const res = await fetch(import.meta.env.VITE_API_URL, {
+      const response = await fetch("/functions/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "register", ...formData }),
       });
 
-      const data = await res.json();
+      const data = await response.json();
       setMessage(data.message);
-
-      if (data.status === "success") {
-        navigate("/login");
-      }
     } catch (err) {
-      console.error("Register error:", err);
+      console.error(err);
       setMessage("Something went wrong!");
     }
   };
@@ -54,20 +51,16 @@ const RegisterForm = () => {
             <input
               type={field === "password" ? "password" : "text"}
               name={field}
-              placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+              placeholder={field}
               value={formData[field]}
               onChange={handleChange}
               required
-              autoComplete={field==="password"?"new-password":"off"}
             />
           </label>
         ))}
         <button type="submit">Register</button>
       </form>
-
-      {message && <p className="message-text">{message}</p>}
+      {message && <p style={{ textAlign: "center", marginTop: 10 }}>{message}</p>}
     </div>
   );
-};
-
-export default RegisterForm;
+}

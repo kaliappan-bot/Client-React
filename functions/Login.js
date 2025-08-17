@@ -1,25 +1,25 @@
-export default async function handler(req, res) {
+export async function onRequestPost({ request }) {
   try {
+    const body = await request.json();
+
     const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbwlvezg83ZhPPeTzmLfv-eHsc2g-S-ka2yPMs8z_scNn04DHFwQ0O_poivIT2aIenX1/exec",
+      "https://script.google.com/macros/s/AKfycbwzN9d_YBYxzaaQt_LMKlsq8AkuDoLTXqD0d6FUKgEaApokB7Er_VcE3YzvovDu1ozg/exec",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(req.body),
+        body: JSON.stringify(body),
       }
     );
 
-    if (!response.ok) {
-      return res.status(response.status).json({
-        status: "error",
-        message: "Apps Script did not respond correctly",
-      });
-    }
-
     const data = await response.json();
-    res.json(data);
+
+    return new Response(JSON.stringify(data), {
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (err) {
-    console.error("Proxy error:", err);
-    res.status(500).json({ status: "error", message: "Server error" });
+    return new Response(
+      JSON.stringify({ status: "error", message: err.toString() }),
+      { headers: { "Content-Type": "application/json" } }
+    );
   }
 }

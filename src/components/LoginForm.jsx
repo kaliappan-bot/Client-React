@@ -1,6 +1,6 @@
-import React, { useState } from "react";  
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaHome } from "react-icons/fa"; 
+import { FaHome } from "react-icons/fa";
 import "./LoginForm.css";
 
 function LoginForm() {
@@ -14,22 +14,16 @@ function LoginForm() {
     setError("");
 
     try {
-      // ✅ Call the Cloudflare proxy instead of Apps Script directly
       const response = await fetch("/functions/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "login", empId, password }),
       });
 
-      const text = await response.text();
-      if (!text) throw new Error("Empty response from server");
-      const data = JSON.parse(text);
-
-      console.log("Server response:", data);
+      const data = await response.json();
 
       if (data.status === "success") {
-        alert("Login successful ✅");
-        navigate("/welcome", { state: { name: data.name } }); // pass user name
+        navigate("/welcome", { state: { name: data.name } });
       } else {
         setError(data.message || "Login failed");
       }
@@ -58,7 +52,6 @@ function LoginForm() {
             autoComplete="username"
           />
         </label>
-
         <label>
           Password
           <input
@@ -70,7 +63,6 @@ function LoginForm() {
             autoComplete="current-password"
           />
         </label>
-
         <button type="submit">Login</button>
         {error && <p className="error-text">{error}</p>}
       </form>

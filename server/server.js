@@ -7,7 +7,7 @@ const app = express();
 const PORT = 5000;
 
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxw3jC99gE1LHLVL0KD35HJH9f2RJlC-oThjv0rhPDWRp5zCSknmRCoGxoqw1T2Wzmg/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzN9d_YBYxzaaQt_LMKlsq8AkuDoLTXqD0d6FUKgEaApokB7Er_VcE3YzvovDu1ozg/exec";
 
 app.use(cors());
 app.use(bodyParser.json());
