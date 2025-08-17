@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; 
 import { useNavigate } from "react-router-dom";
 import { FaHome } from "react-icons/fa"; 
 import "./LoginForm.css";
@@ -24,18 +24,22 @@ function LoginForm() {
         }),
       });
 
-      const data = await response.json();
+      // ✅ Check if response is empty
+      const text = await response.text();
+      if (!text) throw new Error("Empty response from server");
+      const data = JSON.parse(text);
+
       console.log("Server response:", data);
 
       if (data.status === "success") {
-        alert("Login successful ");
-       navigate("/welcome", { state: { name: data.name } });
+        alert("Login successful ✅");
+        navigate("/welcome", { state: { name: data.name } }); // pass name
       } else {
         setError(data.message || "Login failed");
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError("Something went wrong");
+      setError("Something went wrong or server did not respond");
     }
   };
 
@@ -55,7 +59,7 @@ function LoginForm() {
             value={empId}
             onChange={(e) => setEmpId(e.target.value)}
             required
-            autoComplete="username" 
+            autoComplete="username"
           />
         </label>
 
@@ -67,7 +71,7 @@ function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            autoComplete="current-password" 
+            autoComplete="current-password"
           />
         </label>
 
