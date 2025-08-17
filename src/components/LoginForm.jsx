@@ -14,14 +14,14 @@ function LoginForm() {
     setError("");
 
     try {
-      const response = await fetch("/functions/login", {
+      const response = await fetch(import.meta.env.VITE_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "login", empId, password }),
       });
 
       const text = await response.text();
-      const data = text ? JSON.parse(text) : { status: "error", message: "Empty response from server" };
+      const data = text ? JSON.parse(text) : { status: "error", message: "Empty response" };
 
       if (data.status === "success") {
         navigate("/welcome", { state: { name: data.name } });
