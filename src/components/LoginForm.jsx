@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";  
 import { useNavigate } from "react-router-dom";
 import { FaHome } from "react-icons/fa"; 
 import "./LoginForm.css";
@@ -14,7 +14,8 @@ function LoginForm() {
     setError("");
 
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL, {
+      // ✅ Call the Cloudflare proxy instead of Apps Script directly
+      const response = await fetch("/functions/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "login", empId, password }),
@@ -24,8 +25,11 @@ function LoginForm() {
       if (!text) throw new Error("Empty response from server");
       const data = JSON.parse(text);
 
+      console.log("Server response:", data);
+
       if (data.status === "success") {
-        navigate("/welcome", { state: { name: data.name } });
+        alert("Login successful ✅");
+        navigate("/welcome", { state: { name: data.name } }); // pass user name
       } else {
         setError(data.message || "Login failed");
       }
