@@ -6,36 +6,13 @@
   border-radius: 10px;
   background: white;
   text-align: center;
-}
-
-.tab-buttons {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.tab-buttons button {
-  flex: 1;
-  padding: 10px;
-  cursor: pointer;
-  background: lightgray;
-  border: none;
-  font-weight: bold;
-}
-
-.tab-buttons .active {
-  background: dodgerblue;
-  color: white;
+  position: relative;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
-}
-
-.login-form label {
-  text-align: left;
 }
 
 .login-form input {
@@ -52,14 +29,10 @@
   cursor: pointer;
 }
 
-.forgot-password {
-  margin-top: 10px;
+.login-form button:hover {
+  background: navy;
 }
 
-.forgot-password a {
-  color: dodgerblue;
-  text-decoration: none;
-}
 .home-btn {
   position: absolute;
   top: 15px;
@@ -67,18 +40,22 @@
   background-color: blueviolet;
   color: white;
   border: none;
-  border-radius: 50%; /* round */
+  border-radius: 50%;
   width: 45px;
   height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .home-btn:hover {
   background-color: aqua;
   color: black;
   transform: scale(1.1);
+}
+
+.error-text {
+  color: red;
+  margin-top: 10px;
 }

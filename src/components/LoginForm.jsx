@@ -20,7 +20,10 @@ function LoginForm() {
         body: JSON.stringify({ action: "login", empId, password }),
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      if (!text) throw new Error("Empty response from server");
+
+      const data = JSON.parse(text);
 
       if (data.status === "success") {
         navigate("/welcome", { state: { name: data.name } });
@@ -52,6 +55,7 @@ function LoginForm() {
             autoComplete="username"
           />
         </label>
+
         <label>
           Password
           <input
@@ -63,6 +67,7 @@ function LoginForm() {
             autoComplete="current-password"
           />
         </label>
+
         <button type="submit">Login</button>
         {error && <p className="error-text">{error}</p>}
       </form>
