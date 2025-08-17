@@ -14,16 +14,18 @@ function LoginForm() {
     setError("");
 
     try {
+      // ✅ Fetch via Cloudflare proxy
       const response = await fetch("/functions/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "login", empId, password }),
       });
 
+      // ✅ Safely parse JSON
       const text = await response.text();
-      if (!text) throw new Error("Empty response from server");
-
-      const data = JSON.parse(text);
+      const data = text
+        ? JSON.parse(text)
+        : { status: "error", message: "Empty response from server" };
 
       if (data.status === "success") {
         navigate("/welcome", { state: { name: data.name } });
