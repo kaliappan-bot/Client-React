@@ -17,23 +17,15 @@ function LoginForm() {
       const response = await fetch(import.meta.env.VITE_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "login",
-          empId,
-          password,
-        }),
+        body: JSON.stringify({ action: "login", empId, password }),
       });
 
-      // ✅ Check if response is empty
       const text = await response.text();
       if (!text) throw new Error("Empty response from server");
       const data = JSON.parse(text);
 
-      console.log("Server response:", data);
-
       if (data.status === "success") {
-        alert("Login successful ✅");
-        navigate("/welcome", { state: { name: data.name } }); // pass name
+        navigate("/welcome", { state: { name: data.name } });
       } else {
         setError(data.message || "Login failed");
       }
@@ -76,12 +68,7 @@ function LoginForm() {
         </label>
 
         <button type="submit">Login</button>
-
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        <div className="forgot-password">
-          <a href="#">Forgot Password?</a>
-        </div>
+        {error && <p className="error-text">{error}</p>}
       </form>
     </div>
   );

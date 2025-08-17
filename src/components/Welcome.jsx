@@ -6,15 +6,12 @@ import "./Welcome.css";
 function Welcome() {
   const navigate = useNavigate();
   const location = useLocation();
-  const userName = location.state?.name || "User"; 
+  const userName = location.state?.name || "User";
 
-  const handleLogout = () => {
-  navigate("/login"); 
-  };
+  const handleLogout = () => navigate("/login");
 
   return (
     <div className="welcome-container">
-      
       <div className="top-right-buttons">
         <button className="icon-btn" onClick={() => navigate("/")}>
           <FaHome size={20} />
@@ -24,7 +21,7 @@ function Welcome() {
         </button>
       </div>
 
-      <h1>Welcome {userName} </h1>
+      <h1>Welcome {userName}</h1>
       <p>You have successfully logged in.</p>
     </div>
   );
