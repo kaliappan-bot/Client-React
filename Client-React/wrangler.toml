@@ -1,0 +1,7 @@
+ 
+name = "client-react"
+type = "javascript"
+compatibility_date = "2025-07-05"
+
+[build]
+upload.format = "modules"

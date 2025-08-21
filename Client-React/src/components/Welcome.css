@@ -1,0 +1,71 @@
+
+.welcome-container {
+  background-color: lightgreen;
+  padding: 50px 20px;
+  max-width: 800px;
+  margin: 60px auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  position: relative; 
+  text-align: center;
+}
+
+.welcome-container h1 {
+  font-size: 32px;
+  color: darkgreen;
+  margin-bottom: 20px;
+}
+
+.welcome-container p {
+  font-size: 18px;
+  color: #333;
+  margin-top: 10px;
+}
+
+
+.welcome-container h1,
+.welcome-container p {
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+
+.top-right-buttons {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 10px; 
+}
+
+
+.icon-btn {
+  background-color: blueviolet;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.icon-btn:hover {
+  background-color: aqua;
+  transform: scale(1.1);
+  color: black;
+}
+
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
