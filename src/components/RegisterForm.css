@@ -1,31 +1,23 @@
 .register-section {
   background-color: chartreuse;
   padding: 50px 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 600px;
+  margin: 50px auto;
   border-radius: 10px;
   position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-
-.register-section h1 {
+.register-section h2 {
   text-align: center;
   font-size: 24px;
   margin-bottom: 30px;
 }
 
-
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-
-.register-form label {
-  display: flex;
-  flex-direction: column;
-  font-weight: 500;
-  color: #333;
+  gap: 15px;
 }
 
 .register-form input {
