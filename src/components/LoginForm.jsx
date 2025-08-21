@@ -1,74 +1,49 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
-import "./LoginForm.css";
 
 function LoginForm() {
   const [empId, setEmpId] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
-    try {
-      const response = await fetch(import.meta.env.VITE_API_URL, {
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycbyRqNQXufEeSF-JGNprSVq6Yk27qKtWK6XfC4wdG5trso3KhltH084C2KVyIgJCjT5oAA/exec",
+      {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "login", empId, password }),
-      });
-
-      const text = await response.text();
-      const data = text ? JSON.parse(text) : { status: "error", message: "Empty response" };
-
-      if (data.status === "success") {
-        navigate("/welcome", { state: { name: data.name } });
-      } else {
-        setError(data.message || "Login failed");
+        body: new URLSearchParams({
+          empId,
+          password,
+          action: "login"
+        }),
       }
-    } catch (err) {
-      console.error("Login error:", err);
-      setError("Something went wrong or server did not respond");
-    }
+    );
+
+    const result = await response.json();
+    setMessage(result.message);
   };
 
   return (
-    <div className="login-container">
-      <button className="home-btn" onClick={() => navigate("/")}>
-        <FaHome size={20} />
-      </button>
-
+    <div>
       <h2>Login</h2>
-      <form className="login-form" onSubmit={handleLogin}>
-        <label>
-          Employee ID
-          <input
-            type="text"
-            placeholder="Enter Employee ID"
-            value={empId}
-            onChange={(e) => setEmpId(e.target.value)}
-            required
-            autoComplete="username"
-          />
-        </label>
-
-        <label>
-          Password
-          <input
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="current-password"
-          />
-        </label>
-
+      <form onSubmit={handleSubmit}>
+        <input
+          placeholder="Employee ID"
+          value={empId}
+          onChange={(e) => setEmpId(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
         <button type="submit">Login</button>
-        {error && <p className="error-text">{error}</p>}
       </form>
+      <p>{message}</p>
     </div>
   );
 }

@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
-import "./RegisterForm.css";
 
-export default function RegisterForm() {
+function RegisterForm() {
   const [formData, setFormData] = useState({
     name: "",
     empId: "",
@@ -12,55 +9,45 @@ export default function RegisterForm() {
     mobile: "",
     password: "",
   });
+
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
 
-  const handleChange = (e) =>
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  const handleRegister = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
 
-    try {
-      const response = await fetch("/functions/login", {
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycbyRqNQXufEeSF-JGNprSVq6Yk27qKtWK6XfC4wdG5trso3KhltH084C2KVyIgJCjT5oAA/exec", 
+      {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "register", ...formData }),
-      });
-
-      const data = await response.json();
-      setMessage(data.message);
-    } catch (err) {
-      console.error(err);
-      setMessage("Something went wrong!");
-    }
+        body: new URLSearchParams({
+          ...formData,
+          action: "register"
+        }),
+      }
+    );
+    const result = await response.json();
+    setMessage(result.message);
   };
 
   return (
-    <div className="register-section">
-      <button className="home-btn" onClick={() => navigate("/")}>
-        <FaHome size={20} />
-      </button>
-
-      <h1>Employee Registration</h1>
-      <form className="register-form" onSubmit={handleRegister}>
-        {["name","empId","email","department","mobile","password"].map((field) => (
-          <label key={field}>
-            {field.charAt(0).toUpperCase() + field.slice(1)}
-            <input
-              type={field === "password" ? "password" : "text"}
-              name={field}
-              placeholder={field}
-              value={formData[field]}
-              onChange={handleChange}
-              required
-            />
-          </label>
-        ))}
+    <div>
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
+        <input name="name" placeholder="Name" onChange={handleChange} required />
+        <input name="empId" placeholder="Employee ID" onChange={handleChange} required />
+        <input name="email" placeholder="Email" onChange={handleChange} required />
+        <input name="department" placeholder="Department" onChange={handleChange} required />
+        <input name="mobile" placeholder="Mobile" onChange={handleChange} required />
+        <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
         <button type="submit">Register</button>
       </form>
-      {message && <p style={{ textAlign: "center", marginTop: 10 }}>{message}</p>}
+      <p>{message}</p>
     </div>
   );
 }
+
+export default RegisterForm;

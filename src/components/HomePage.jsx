@@ -10,7 +10,7 @@ import NewsTicker from '../components/NewsTicker';
 import ContactSection from '../components/ContactSection';
 import Footer from '../components/Footer';
 import './HomePage.css';
-
+// import Auth from './Auth';
 export default function HomePage() {
   
   const announcements = [
@@ -32,6 +32,7 @@ export default function HomePage() {
       <QuickStats />
       <ContactSection />
       <Footer />
+      {/* <Auth /> */}
       </div>
   );
 }

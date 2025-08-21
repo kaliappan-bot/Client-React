@@ -11,7 +11,11 @@ const Header = () => {
     navigate('/');
     window.scrollTo(0, 0); 
   };
-
+const handleAuthClick = (e) => {
+    e.preventDefault();
+    navigate('/Auth');
+    window.scrollTo(0, 0); 
+  };
   return (
     <header className="header">
       <div className="header-container">
@@ -30,8 +34,9 @@ const Header = () => {
           <Link to="/" onClick={handleHomeClick}>Home</Link>
           <a href="#about">About Us</a>
           <a href="#services">Services</a>
-          <Link to="/login?type=admin">Admin Login</Link>
-          <Link to="/login?type=employee">Employee Login</Link>
+          {/* <Link to="/login?type=admin">Admin Login</Link>
+          <Link to="/login?type=employee">Employee Login</Link> */}
+          <Link to = "/Auth" onClick={handleAuthClick}>Auth</Link>
           <a href="#contact">Contact</a>
         </nav>
       </div>
