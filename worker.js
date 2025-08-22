@@ -2,7 +2,7 @@
 const ALLOWED_ORIGINS = [
   "http://localhost:5173",                // Local dev
   "https://ibots-kaliappan.pages.dev",   // Production Pages
-  /https:\/\/.*\.pages\.dev/,             // Pages preview URLs
+  "https://f86e173a.client-react-ck5.pages.dev", // Pages preview
 ];
 
 addEventListener("fetch", event => {
@@ -18,9 +18,7 @@ async function handleRequest(event) {
     const origin = request.headers.get("Origin") || "*";
 
     // Determine CORS header
-    const corsHeader = ALLOWED_ORIGINS.some(pattern =>
-      typeof pattern === "string" ? pattern === origin : pattern.test(origin)
-    ) ? origin : "*";
+    const corsHeader = ALLOWED_ORIGINS.includes(origin) ? origin : "*";
 
     // Handle CORS preflight
     if (request.method === "OPTIONS") {
@@ -33,12 +31,18 @@ async function handleRequest(event) {
       });
     }
 
+    // Only allow POST
     if (request.method !== "POST") {
       return new Response(JSON.stringify({ ok: false, error: "POST only" }), {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": corsHeader,
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+        },
       });
     }
 
+    // Parse incoming request body
     const body = await request.json();
 
     // Your Google Apps Script URL
@@ -64,11 +68,17 @@ async function handleRequest(event) {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": corsHeader,
         "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
       },
     });
   } catch (err) {
     return new Response(JSON.stringify({ ok: false, error: err.message }), {
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      },
     });
   }
 }
