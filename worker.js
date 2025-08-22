@@ -5,6 +5,7 @@ const ALLOWED_ORIGINS = [
   "https://f86e173a.client-react-ck5.pages.dev", // Pages preview
 ];
 
+// Listen to fetch events
 addEventListener("fetch", event => {
   event.respondWith(handleRequest(event));
 });
@@ -31,27 +32,31 @@ async function handleRequest(event) {
       });
     }
 
-    // Only allow POST
+    // Only allow POST requests
     if (request.method !== "POST") {
       return new Response(JSON.stringify({ ok: false, error: "POST only" }), {
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": corsHeader,
           "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
         },
       });
     }
 
-    // Parse incoming request body
+    // Parse request body
     const body = await request.json();
 
-    // Your Google Apps Script URL
+    // Access the secret inside handleRequest
+    const CF_API_TOKEN = event.env.CF_API_TOKEN;
+    if (!CF_API_TOKEN) {
+      throw new Error("CF_API_TOKEN is not defined. Make sure you added the secret via wrangler.");
+    }
+
+    // Google Apps Script URL
     const GAS_URL = "https://script.google.com/macros/s/AKfycbzjBIoscs3pBgfJgWhek8gjk_4zInyr9qy4KpIOLlb7uM6JrOHOpEqhIvbRCSMYP12m/exec";
 
-    // Access the secret injected by Wrangler
-    const CF_API_TOKEN = event.env.CF_API_TOKEN;
-
-    // Forward the request to GAS
+    // Forward request to GAS
     const res = await fetch(GAS_URL, {
       method: "POST",
       headers: {
@@ -71,6 +76,7 @@ async function handleRequest(event) {
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
       },
     });
+
   } catch (err) {
     return new Response(JSON.stringify({ ok: false, error: err.message }), {
       headers: {
