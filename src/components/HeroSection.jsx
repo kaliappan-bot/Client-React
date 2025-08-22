@@ -12,8 +12,10 @@ const HeroSection = () => {
                     <p>iBots Meikavalputhur Office</p>
                     <Link to="/register">
                     <button className="hero-button">Register as Employee</button></Link>
-                    <Link to="/login">
-                    <button className="hero-button secondary">Login to Portal</button></Link>
+                    <Link to="/employeelogin">
+                    <button className="hero-button secondary">Employee Login</button></Link>
+                    <Link to ="/adminlogin">
+                    <button className="hero-button">Admin Login</button></Link>
                 </div>
             </div>
         </section>

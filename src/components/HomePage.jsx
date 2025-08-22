@@ -4,13 +4,13 @@ import HeroSection from '../components/HeroSection';
 import About from '../components/About';
 import Services from '../components/Services';
 import RegisterForm from '../components/RegisterForm';
-import LoginForm from './LoginForm';
+import EmployeeLogin from './EmployeeLogin';
 import QuickStats from '../components/QuickStats';
 import NewsTicker from '../components/NewsTicker'; 
 import ContactSection from '../components/ContactSection';
 import Footer from '../components/Footer';
 import './HomePage.css';
-// import Auth from './Auth';
+import AdminLogin from '../components/AdminLogin';
 export default function HomePage() {
   
   const announcements = [
@@ -28,11 +28,11 @@ export default function HomePage() {
       <About />
       <Services />
       <RegisterForm />
-      <LoginForm />
+      <EmployeeLogin />
       <QuickStats />
       <ContactSection />
       <Footer />
-      {/* <Auth /> */}
+      <AdminLogin />
       </div>
   );
 }

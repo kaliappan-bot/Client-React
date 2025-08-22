@@ -1,94 +1,47 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";  
-import "./RegisterForm.css"; 
+import { api } from "../api";
 
-function RegisterForm() {
-  const [formData, setFormData] = useState({
+export default function RegisterForm() {
+  const [form, setForm] = useState({
     name: "",
-    empId: "",
+    empid: "",
     email: "",
-    department: "",
     mobile: "",
     password: "",
   });
-
-  const [message, setMessage] = useState("");
-  const navigate = useNavigate(); 
+  const [status, setStatus] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatus("Submitting...");
 
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbyRqNQXufEeSF-JGNprSVq6Yk27qKtWK6XfC4wdG5trso3KhltH084C2KVyIgJCjT5oAA/exec",
-      {
-        method: "POST",
-        body: new URLSearchParams({
-          ...formData,
-          action: "register",
-        }),
+    try {
+      const res = await api.register(form);
+      if (res.ok) {
+        setStatus("✅ Registered successfully");
+        setForm({ name: "", empid: "", email: "", mobile: "", password: "" });
+      } else {
+        setStatus("❌ Failed: " + res.error);
       }
-    );
-    const result = await response.json();
-    setMessage(result.message);
+    } catch (err) {
+      setStatus("❌ Network error: " + err.message);
+    }
   };
 
   return (
-    <div className="register-section">
-    
-      <button className="home-btn" onClick={() => navigate("/")}>
-        ⬅
-      </button>
-
+    <form onSubmit={handleSubmit}>
       <h2>Register</h2>
-
-      <form className="register-form" onSubmit={handleSubmit}>
-        <input
-          name="name"
-          placeholder="Name"
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="empId"
-          placeholder="Employee ID"
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="department"
-          placeholder="Department"
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="mobile"
-          placeholder="Mobile"
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Register</button>
-      </form>
-
-      <p>{message}</p>
-    </div>
+      <input name="name" placeholder="Name" value={form.name} onChange={handleChange} required />
+      <input name="empid" placeholder="Employee ID" value={form.empid} onChange={handleChange} required />
+      <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
+      <input name="mobile" placeholder="Mobile" value={form.mobile} onChange={handleChange} required />
+      <input type="password" name="password" placeholder="Password" autoComplete="new-password" value={form.password} onChange={handleChange} required />
+      <button type="submit">Register</button>
+      <p>{status}</p>
+    </form>
   );
 }
-
-export default RegisterForm;
