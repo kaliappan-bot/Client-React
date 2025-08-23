@@ -1,37 +1,52 @@
 import React, { useState } from "react";
-import { api } from "../api";
 
 export default function AdminLogin() {
-  const [form, setForm] = useState({ empid: "", password: "" });
-  const [status, setStatus] = useState("");
+  const [empid, setEmpid] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setStatus("Logging in...");
 
     try {
-      const res = await api.adminLogin(form);
-      if (res.ok) {
-        setStatus(`✅ Admin login successful, Last login updated`);
+      const res = await fetch("https://ibots-worker.ibots-kaliappan.workers.dev", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "adminlogin",
+          empid,
+          password,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.ok) {
+        setMessage("✅ Admin login successful");
       } else {
-        setStatus("❌ Failed: " + res.error);
+        setMessage(`❌ Failed: ${data.error}`);
       }
     } catch (err) {
-      setStatus("❌ Network error: " + err.message);
+      setMessage(`❌ Error: ${err.message}`);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleLogin}>
       <h2>Admin Login</h2>
-      <input name="empid" placeholder="Employee ID" value={form.empid} onChange={handleChange} required />
-      <input type="password" name="password" placeholder="Password" autoComplete="current-password" value={form.password} onChange={handleChange} required />
+      <input
+        type="text"
+        placeholder="Admin ID"
+        value={empid}
+        onChange={(e) => setEmpid(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <button type="submit">Login</button>
-      <p>{status}</p>
+      <p>{message}</p>
     </form>
   );
 }
